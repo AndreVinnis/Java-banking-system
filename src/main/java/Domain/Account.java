@@ -5,17 +5,14 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class Account {
-    private Long id;
-    private User user;
+    private final Long id;
+    private final User user;
     private String agency;
-    private String accountNumber;
+    private final String accountNumber;
     private BigDecimal balance;
     private String transactionPinHash;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    public Account() {
-    }
 
     public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt) {
         this.id = id;
@@ -46,10 +43,6 @@ public abstract class Account {
 
     public String getAccountNumber() {
         return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
     public String getTransactionPinHash() {
