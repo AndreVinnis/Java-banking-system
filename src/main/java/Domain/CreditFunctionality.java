@@ -1,11 +1,13 @@
 package Domain;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CreditFunctionality {
     private BigDecimal creditLimit;
     private BigDecimal currentBalance;
-
+    private final Set<Invoice> invoices = new HashSet<>();
 
     public CreditFunctionality(BigDecimal creditLimit) {
         this.creditLimit = creditLimit;
@@ -22,6 +24,10 @@ public class CreditFunctionality {
 
     public void setCreditLimit(BigDecimal creditLimit) {
         this.creditLimit = creditLimit;
+    }
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
     }
 
     public Boolean processCredit(BigDecimal amount){

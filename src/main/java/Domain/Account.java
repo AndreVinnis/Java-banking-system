@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public abstract class Account {
     private final Long id;
-    private final User user;
     private String agency;
     private final String accountNumber;
     private BigDecimal balance;
@@ -14,7 +13,10 @@ public abstract class Account {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt) {
+    private final User user;
+    private final Card card;
+
+    public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt, Card card) {
         this.id = id;
         this.user = user;
         this.agency = agency;
@@ -23,6 +25,7 @@ public abstract class Account {
         this.transactionPinHash = transactionPinHash;
         this.createdAt = createdAt;
         this.updatedAt = createdAt;
+        this.card = card;
     }
 
     public Long getId() {
@@ -63,6 +66,10 @@ public abstract class Account {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Card getCard() {
+        return card;
     }
 
     public void deposit(BigDecimal amount){

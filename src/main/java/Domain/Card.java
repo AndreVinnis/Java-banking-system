@@ -2,8 +2,9 @@ package Domain;
 
 import Enums.Flag;
 
-import java.math.BigDecimal;
 import java.time.YearMonth;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Card {
     private final Long id;
@@ -15,6 +16,7 @@ public class Card {
 
     private final DebitFuncionality debitFuncionality;
     private CreditFunctionality creditFunctionality;
+    private final Set<Card> cardTransactions = new HashSet<>();
 
     public Card(Long id, String cardNumber, String cvv, Flag flag, YearMonth validity, String pinCardHash, DebitFuncionality debitFuncionality, CreditFunctionality creditFunctionality) {
         this.id = id;
@@ -69,5 +71,9 @@ public class Card {
 
     public void setCreditFunctionality(CreditFunctionality creditFunctionality) {
         this.creditFunctionality = creditFunctionality;
+    }
+
+    public Set<Card> getCardTransactions() {
+        return cardTransactions;
     }
 }

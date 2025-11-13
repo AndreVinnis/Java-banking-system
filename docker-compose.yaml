@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-dev-db
+    restart: always
+    environment:
+      POSTGRES_USER: bank_user
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: banking_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    image: maven:3.9.5-eclipse-temurin-17
+    container_name: java-bank-dev-app
+    depends_on:
+      - db
+    working_dir: /app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banking_db
+      SPRING_DATASOURCE_USERNAME: bank_user
+      SPRING_DATASOURCE_PASSWORD: mysecretpassword
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - ~/.m2:/root/.m2
+    command: mvn spring-boot:run
+
+volumes:
+    postgres_data:
