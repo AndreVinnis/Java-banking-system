@@ -1,6 +1,6 @@
-package Domain;
+package com.andre.projetobanco.Domain;
 
-import Enums.Flag;
+import com.andre.projetobanco.Enums.Flag;
 
 import java.time.YearMonth;
 import java.util.HashSet;

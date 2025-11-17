@@ -1,4 +1,4 @@
-package Domain;
+package com.andre.projetobanco.Domain;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -7,8 +7,8 @@ public class CurrentAccount extends Account {
     private BigDecimal overdrawLimit;
     private BigDecimal maintenanceFee;
 
-    public CurrentAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt, BigDecimal overdrawLimit, BigDecimal maintenanceFee) {
-        super(id, user, agency, accountNumber, balance, transactionPinHash, createdAt);
+    public CurrentAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt, Card card, BigDecimal overdrawLimit, BigDecimal maintenanceFee) {
+        super(id, user, agency, accountNumber, balance, transactionPinHash, createdAt, card);
         this.overdrawLimit = overdrawLimit;
         this.maintenanceFee = maintenanceFee;
     }

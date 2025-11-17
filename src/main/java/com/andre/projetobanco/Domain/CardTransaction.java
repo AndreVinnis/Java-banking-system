@@ -1,6 +1,7 @@
-package Domain;
+package com.andre.projetobanco.Domain;
 
-import Enums.CardType;
+
+import com.andre.projetobanco.Enums.CardType;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;

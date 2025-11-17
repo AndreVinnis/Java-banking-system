@@ -1,9 +1,9 @@
-package Domain;
+package com.andre.projetobanco.Domain;
 
-import Enums.TransactionType;
-
+import com.andre.projetobanco.Enums.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+
 
 public class BankingTransaction {
     private final Long id;

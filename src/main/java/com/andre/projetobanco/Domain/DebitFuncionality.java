@@ -1,4 +1,4 @@
-package Domain;
+package com.andre.projetobanco.Domain;
 
 import java.math.BigDecimal;
 
