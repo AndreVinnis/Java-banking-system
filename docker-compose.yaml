@@ -1,16 +1,17 @@
 services:
   db:
-    image: postgres:15-alpine
-    container_name: postgres-dev-db
+    image: mysql/mysql-server:8.0
+    container_name: mysql-bank-db
     restart: always
     environment:
-      POSTGRES_USER: bank_user
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: banking_db
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      MYSQL_ROOT_PASSWORD: root_secret
+      MYSQL_USER: bank_user
+      MYSQL_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: banking_db
     ports:
-      - "5432:5432"
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   app:
     image: maven:3.9.5-eclipse-temurin-17
@@ -19,7 +20,7 @@ services:
       - db
     working_dir: /app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banking_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/banking_db
       SPRING_DATASOURCE_USERNAME: bank_user
       SPRING_DATASOURCE_PASSWORD: mysecretpassword
     ports:
@@ -30,4 +31,4 @@ services:
     command: mvn spring-boot:run
 
 volumes:
-    postgres_data:
+  mysql_data:
