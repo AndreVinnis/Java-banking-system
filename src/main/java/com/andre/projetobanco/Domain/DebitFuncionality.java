@@ -1,7 +1,10 @@
 package com.andre.projetobanco.Domain;
 
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 
+@Service
 public class DebitFuncionality {
 
     public DebitFuncionality() {

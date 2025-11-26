@@ -1,31 +1,58 @@
 package com.andre.projetobanco.Domain;
 
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
-public abstract class Account {
-    private final Long id;
+@Entity
+@Table(name = "tb_accounts")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@EntityListeners(AuditingEntityListener.class)
+public abstract class Account implements Serializable, UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String agency;
-    private final String accountNumber;
+    private String accountNumber;
     private BigDecimal balance;
     private String transactionPinHash;
-    private final LocalDateTime createdAt;
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    private final User user;
-    private final Card card;
 
-    public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt, Card card) {
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne
+    @JoinColumn(name = "card_id")
+    private Card card;
+
+    public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, Card card) {
         this.id = id;
         this.user = user;
         this.agency = agency;
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.transactionPinHash = transactionPinHash;
-        this.createdAt = createdAt;
-        this.updatedAt = createdAt;
         this.card = card;
+    }
+
+    public Account() {
+
     }
 
     public Long getId() {
@@ -96,5 +123,20 @@ public abstract class Account {
     @Override
     public int hashCode() {
         return Objects.hash(id, user);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getPassword() {
+        return "";
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
     }
 }

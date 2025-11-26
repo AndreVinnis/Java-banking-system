@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class SalaryAccount extends Account {
 
-    public SalaryAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, LocalDateTime createdAt, Card card) {
-        super(id, user, agency, accountNumber, balance, transactionPinHash, createdAt, card);
+    public SalaryAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, Card card) {
+        super(id, user, agency, accountNumber, balance, transactionPinHash, card);
     }
 }

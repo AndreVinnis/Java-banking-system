@@ -1,32 +1,44 @@
 package com.andre.projetobanco.Domain;
 
 import com.andre.projetobanco.Enums.Flag;
-
+import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "tb_cards")
 public class Card {
-    private final Long id;
-    private final String cardNumber;
-    private final String cvv;
-    private final Flag flag;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String cardNumber;
+    private String cvv;
+    private Flag flag;
     private YearMonth validity;
     private String pinCardHash;
+    private BigDecimal creditLimit;
+    private BigDecimal currentBalance;
 
-    private final DebitFuncionality debitFuncionality;
-    private CreditFunctionality creditFunctionality;
-    private final Set<Card> cardTransactions = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Invoice> invoices = new HashSet<>();
 
-    public Card(Long id, String cardNumber, String cvv, Flag flag, YearMonth validity, String pinCardHash, DebitFuncionality debitFuncionality, CreditFunctionality creditFunctionality) {
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Card> cardTransactions = new HashSet<>();
+
+    public Card() {
+    }
+
+    public Card(Long id, String cardNumber, String cvv, Flag flag, YearMonth validity, String pinCardHash) {
         this.id = id;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.flag = flag;
         this.validity = validity;
         this.pinCardHash = pinCardHash;
-        this.debitFuncionality = debitFuncionality;
-        this.creditFunctionality = creditFunctionality;
+        this.currentBalance = BigDecimal.ZERO;
     }
 
     public Long getId() {
@@ -61,19 +73,56 @@ public class Card {
         this.pinCardHash = pinCardHash;
     }
 
-    public DebitFuncionality getDebitFuncionality() {
-        return debitFuncionality;
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
     }
 
-    public CreditFunctionality getCreditFunctionality() {
-        return creditFunctionality;
+    public void setCreditLimit(BigDecimal creditLimit) {
+        this.creditLimit = creditLimit;
     }
 
-    public void setCreditFunctionality(CreditFunctionality creditFunctionality) {
-        this.creditFunctionality = creditFunctionality;
+    public BigDecimal getCurrentBalance() {
+        return currentBalance;
+    }
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
     }
 
     public Set<Card> getCardTransactions() {
         return cardTransactions;
+    }
+
+   public BigDecimal getAvailableLimit() {
+        if(this.creditLimit == null){
+            return BigDecimal.ZERO;
+        }
+        return creditLimit.subtract(this.currentBalance);
+   }
+
+    public boolean authorizeCreditUse(BigDecimal amount){
+        if(amount.compareTo(BigDecimal.ZERO) <= 0){
+            return false;
+        }
+
+        if(amount.compareTo(getAvailableLimit()) <= 0){
+            currentBalance = currentBalance.add(amount);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void processPayment(BigDecimal amount){
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Payment amount must be positive.");
+        }
+
+        if (amount.compareTo(currentBalance) >= 0) {
+            throw new IllegalArgumentException("The stated value is greater than the required value..");
+        }
+
+        this.currentBalance = this.currentBalance.subtract(amount);
     }
 }

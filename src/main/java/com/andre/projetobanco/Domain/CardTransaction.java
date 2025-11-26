@@ -2,20 +2,29 @@ package com.andre.projetobanco.Domain;
 
 
 import com.andre.projetobanco.Enums.CardType;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_card_transactions")
 public class CardTransaction {
-    private final Long id;
-    private final String merchantName;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private  String merchantName;
     private Integer installmentCount;
     private Integer installmentsPaid;
     private YearMonth invoiceDateOfNextInstallment;
-    private final String authorizationCode;
-    private final CardType cardType;
-    private final LocalDateTime transactionDate;
+    private String authorizationCode;
+    private CardType cardType;
+    private LocalDateTime transactionDate;
+
+    public CardTransaction() {
+    }
 
     public CardTransaction(Long id, String merchantName, Integer installmentCount, YearMonth invoiceDateOfNextInstallment, String authorizationCode, CardType cardType, LocalDateTime transactionDate) {
         this.id = id;

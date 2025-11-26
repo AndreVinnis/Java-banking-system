@@ -1,15 +1,26 @@
 package com.andre.projetobanco.Domain;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.time.YearMonth;
 
+@Entity
+@Table(name = "tb_invoices")
 public class Invoice {
-    private final Long id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private BigDecimal totalValue;
     private YearMonth dueDate;
     private YearMonth closingDate;
     private Boolean isClosed;
     private Boolean isPaid;
+
+    public Invoice() {
+    }
 
     public Invoice(Long id, BigDecimal totalValue, YearMonth dueDate, YearMonth closingDate) {
         this.id = id;
