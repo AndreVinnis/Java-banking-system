@@ -1,7 +1,6 @@
 package com.andre.projetobanco.Services;
 
 import com.andre.projetobanco.Domain.Account;
-import com.andre.projetobanco.Domain.User;
 import com.andre.projetobanco.Repository.AccountRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
