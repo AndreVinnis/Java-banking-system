@@ -1,12 +1,7 @@
 package com.andre.projetobanco.Domain;
 
 import jakarta.persistence.Entity;
-import org.springframework.security.core.GrantedAuthority;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
 public class CurrentAccount extends Account {

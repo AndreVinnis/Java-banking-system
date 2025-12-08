@@ -15,6 +15,11 @@ public class AccountService {
 
     public Account findById(Long id) {
         Optional<Account> account = accountRepository.findById(id);
-        return account.orElseThrow(() -> new ObjectNotFoundException(account, "User not found"));
+        return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
+    }
+
+    public Account findByAccountNumber(String accountNumber) {
+        Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
+        return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
     }
 }

@@ -3,7 +3,6 @@ package com.andre.projetobanco.Domain;
 import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 public class SavingsAccount extends Account {

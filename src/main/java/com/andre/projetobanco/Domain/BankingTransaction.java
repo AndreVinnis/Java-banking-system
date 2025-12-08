@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
-public class BankingTransaction {
+public class  BankingTransaction {
     private final Long id;
     private final LocalDate dateTime;
     private final BigDecimal amount;
