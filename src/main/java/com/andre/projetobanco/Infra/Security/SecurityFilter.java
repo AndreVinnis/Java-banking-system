@@ -26,57 +26,36 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     UserRepository userRepository;
 
-    /*
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recoverToken(request);
-        if(token != null){
-            var cpf = tokenService.validateToken(token);
-            UserDetails user = userRepository.findUserDetailsByCpf(cpf);
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
         }
-        filterChain.doFilter(request, response);
-    }
-    */
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        var token = this.recoverToken(request);
+        DecodedJWT decodedToken = tokenService.validateToken(token);
 
-        if (token != null) {
+        if (decodedToken != null) {
+            String cpf = decodedToken.getSubject();
 
-            // 1. Validar e Decodificar o Token (usando o método modificado no TokenService)
-            DecodedJWT decodedToken = tokenService.validateToken(token);
+            var roles = decodedToken.getClaim("roles").asList(String.class);
 
-            if (decodedToken != null) {
-                String cpf = decodedToken.getSubject();
+                //
+            var authorities = roles.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .toList();
 
-                // 2. EXTRAIR AS ROLES DO PAYLOAD DO JWT
-                // O método getClaim("roles") deve buscar a claim que você inseriu na criação do token
-                var roles = decodedToken.getClaim("roles").asList(String.class);
+            UserDetails userDetails = userRepository.findUserDetailsByCpf(cpf);
 
-                // 3. Criar as autoridades do Spring Security a partir das roles do token
-                var authorities = roles.stream()
-                        .map(SimpleGrantedAuthority::new)
-                        .toList();
+            var authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    authorities
+            );
 
-                // OBS: Embora não seja estritamente necessário carregar o UserDetails,
-                // é bom para ter o objeto principal completo no contexto.
-                // Se o seu UserRepository tiver um método que retorne SÓ o UserDetails
-                // sem o overhead de todos os relacionamentos, você pode usá-lo:
-                UserDetails userDetails = userRepository.findUserDetailsByCpf(cpf);
-
-                // 4. Injetar a autenticação com as autoridades do token
-                var authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        authorities // <-- Agora o Spring sabe que é ROLE_EMPLOYEE
-                );
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }

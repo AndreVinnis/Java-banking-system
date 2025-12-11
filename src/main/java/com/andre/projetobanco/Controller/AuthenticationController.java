@@ -29,7 +29,7 @@ public class AuthenticationController {
     @Autowired
     private AccountService accountService;
 
-    @PostMapping("/auth/account/login")
+    @PostMapping("/account/login")
     public ResponseEntity<LoginResponseDTO> loginAccount(@RequestBody @Validated AccountLoginDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getAccountNumber(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
@@ -50,17 +50,14 @@ public class AuthenticationController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/auth/employee/login")
+    @PostMapping("/employee/login")
     public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody @Validated UserLoginDTO data) {
-        return ResponseEntity.ok().build();
-
-        /*
+        System.out.println("loginUser");
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getCpf(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateUserToken((User) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
-        */
     }
 }
