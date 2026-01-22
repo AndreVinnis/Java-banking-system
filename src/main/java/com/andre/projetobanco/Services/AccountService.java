@@ -1,14 +1,13 @@
 package com.andre.projetobanco.Services;
 
 import com.andre.projetobanco.DTO.Account.AccountCreationDTO;
-import com.andre.projetobanco.Domain.Account;
-import com.andre.projetobanco.Domain.CurrentAccount;
-import com.andre.projetobanco.Domain.SalaryAccount;
-import com.andre.projetobanco.Domain.SavingsAccount;
+import com.andre.projetobanco.Domain.*;
+import com.andre.projetobanco.Enums.UserRole;
 import com.andre.projetobanco.Repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +33,17 @@ public class AccountService {
         return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
     }
 
-    public Account findByAccountNumberIfAllowed(String accountNumber) {
-        Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
-        return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
+    public Account findByAccountNumberIfAllowed(String accountNumber, User loggedUser) {
+        Account account = accountRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new ObjectNotFoundException((Object) accountNumber, "Account not found"));
+
+        boolean isEmployee = loggedUser.getRole().equals(UserRole.EMPLOYEE);
+        boolean isOwner = account.getUser().getId().equals(loggedUser.getId());
+
+        if (isEmployee || isOwner) {
+            return account;
+        }
+
+        throw new AccessDeniedException("Você não tem permissão para visualizar esta conta.");
     }
 
     @Transactional
