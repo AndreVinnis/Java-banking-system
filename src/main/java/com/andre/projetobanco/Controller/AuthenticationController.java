@@ -1,11 +1,9 @@
 package com.andre.projetobanco.Controller;
 
-import com.andre.projetobanco.DTO.Account.AccountLoginDTO;
 import com.andre.projetobanco.DTO.LoginResponseDTO;
 import com.andre.projetobanco.DTO.Users.UserLoginDTO;
 import com.andre.projetobanco.Domain.*;
 import com.andre.projetobanco.Infra.Security.TokenService;
-import com.andre.projetobanco.Services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,33 +24,8 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
 
-    @Autowired
-    private AccountService accountService;
-
-    @PostMapping("/account/login")
-    public ResponseEntity<LoginResponseDTO> loginAccount(@RequestBody @Validated AccountLoginDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.getAccountNumber(), data.getPassword());
-        var auth = authenticationManager.authenticate(usernamePassword);
-
-        Account account = accountService.findByAccountNumber(data.getAccountNumber());
-
-        if (account instanceof CurrentAccount) {
-            var token = tokenService.generateAccountToken(((CurrentAccount) auth.getPrincipal()));
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        } else if (account instanceof SavingsAccount) {
-            var token = tokenService.generateAccountToken(((SavingsAccount) auth.getPrincipal()));
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        } else if (account instanceof SalaryAccount) {
-            var token = tokenService.generateAccountToken(((SalaryAccount) auth.getPrincipal()));
-            return ResponseEntity.ok(new LoginResponseDTO(token));
-        }
-        
-        return ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/employee/login")
+    @PostMapping("/users/login")
     public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody @Validated UserLoginDTO data) {
-        System.out.println("loginUser");
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.getCpf(), data.getPassword());
         var auth = authenticationManager.authenticate(usernamePassword);
 

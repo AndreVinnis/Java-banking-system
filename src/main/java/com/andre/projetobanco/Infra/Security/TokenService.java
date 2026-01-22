@@ -1,6 +1,5 @@
 package com.andre.projetobanco.Infra.Security;
 
-import com.andre.projetobanco.Domain.Account;
 import com.andre.projetobanco.Domain.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -38,21 +37,6 @@ public class TokenService {
                     .withIssuer("auth-api")
                     .withSubject(user.getCpf())
                     .withClaim("roles", roles)
-                    .withExpiresAt(genExpirationDate())
-                    .sign(algorithm);
-        }
-        catch (JWTCreationException e){
-            throw new RuntimeException("Error while generating token");
-        }
-    }
-
-    public String generateAccountToken(Account account) {
-        try{
-            Algorithm algorithm = Algorithm.HMAC256(secret);
-
-            return JWT.create()
-                    .withIssuer("auth-api")
-                    .withSubject(account.getAccountNumber())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
         }

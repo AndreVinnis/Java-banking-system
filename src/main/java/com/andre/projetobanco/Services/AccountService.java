@@ -34,7 +34,7 @@ public class AccountService {
         return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
     }
 
-    public Account findByAccountNumber(String accountNumber) {
+    public Account findByAccountNumberIfAllowed(String accountNumber) {
         Optional<Account> account = accountRepository.findByAccountNumber(accountNumber);
         return account.orElseThrow(() -> new ObjectNotFoundException(account, "Account not found"));
     }
