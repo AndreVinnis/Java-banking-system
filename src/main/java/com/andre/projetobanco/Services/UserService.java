@@ -1,6 +1,6 @@
 package com.andre.projetobanco.Services;
 
-import com.andre.projetobanco.DTO.UserCreationDTO;
+import com.andre.projetobanco.DTO.Users.UserCreationDTO;
 import com.andre.projetobanco.Domain.User;
 import com.andre.projetobanco.Enums.UserRole;
 import com.andre.projetobanco.Repository.UserRepository;
@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public User createUser(UserCreationDTO user) {

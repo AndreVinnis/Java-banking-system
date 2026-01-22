@@ -32,8 +32,7 @@ public abstract class Account implements Serializable, UserDetails {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -59,8 +58,8 @@ public abstract class Account implements Serializable, UserDetails {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAgency() {
@@ -75,6 +74,14 @@ public abstract class Account implements Serializable, UserDetails {
         return accountNumber;
     }
 
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
     public String getTransactionPinHash() {
         return transactionPinHash;
     }
@@ -87,6 +94,10 @@ public abstract class Account implements Serializable, UserDetails {
         return createdAt;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
@@ -95,8 +106,20 @@ public abstract class Account implements Serializable, UserDetails {
         this.updatedAt = updatedAt;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Card getCard() {
         return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 
     public void deposit(BigDecimal amount){

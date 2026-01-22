@@ -1,4 +1,4 @@
-package com.andre.projetobanco.DTO;
+package com.andre.projetobanco.DTO.Users;
 
 import com.andre.projetobanco.Enums.UserRole;
 

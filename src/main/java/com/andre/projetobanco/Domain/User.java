@@ -1,7 +1,6 @@
 package com.andre.projetobanco.Domain;
 
-
-import com.andre.projetobanco.DTO.UserCreationDTO;
+import com.andre.projetobanco.DTO.Users.UserCreationDTO;
 import com.andre.projetobanco.Enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

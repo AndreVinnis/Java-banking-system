@@ -1,4 +1,4 @@
-package com.andre.projetobanco.DTO;
+package com.andre.projetobanco.DTO.Account;
 
 import java.util.Objects;
 

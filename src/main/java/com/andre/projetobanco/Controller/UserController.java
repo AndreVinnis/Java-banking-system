@@ -1,6 +1,6 @@
 package com.andre.projetobanco.Controller;
 
-import com.andre.projetobanco.DTO.UserCreationDTO;
+import com.andre.projetobanco.DTO.Users.UserCreationDTO;
 import com.andre.projetobanco.Domain.User;
 import com.andre.projetobanco.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

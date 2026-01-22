@@ -42,7 +42,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             var roles = decodedToken.getClaim("roles").asList(String.class);
 
-                //
+
             var authorities = roles.stream()
                     .map(SimpleGrantedAuthority::new)
                     .toList();

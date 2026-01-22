@@ -1,8 +1,8 @@
 package com.andre.projetobanco.Controller;
 
-import com.andre.projetobanco.DTO.AccountLoginDTO;
+import com.andre.projetobanco.DTO.Account.AccountLoginDTO;
 import com.andre.projetobanco.DTO.LoginResponseDTO;
-import com.andre.projetobanco.DTO.UserLoginDTO;
+import com.andre.projetobanco.DTO.Users.UserLoginDTO;
 import com.andre.projetobanco.Domain.*;
 import com.andre.projetobanco.Infra.Security.TokenService;
 import com.andre.projetobanco.Services.AccountService;
