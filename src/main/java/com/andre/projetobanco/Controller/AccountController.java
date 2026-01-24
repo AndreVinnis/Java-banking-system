@@ -1,6 +1,7 @@
 package com.andre.projetobanco.Controller;
 
 import com.andre.projetobanco.DTO.Account.AccountCreationDTO;
+import com.andre.projetobanco.DTO.Account.AccountResponseDTO;
 import com.andre.projetobanco.Domain.Account;
 import com.andre.projetobanco.Domain.User;
 import com.andre.projetobanco.Services.AccountService;
@@ -23,8 +24,8 @@ public class AccountController {
     }
 
     @GetMapping("/{accountNumber}")
-    public ResponseEntity<Account> getByAccountNumber(@PathVariable String accountNumber, @AuthenticationPrincipal User loggedUser) {
+    public ResponseEntity<AccountResponseDTO> getByAccountNumber(@PathVariable String accountNumber, @AuthenticationPrincipal User loggedUser) {
         Account account = accountService.findByAccountNumberIfAllowed(accountNumber, loggedUser);
-        return ResponseEntity.ok(account);
+        return ResponseEntity.ok(new AccountResponseDTO(account));
     }
 }

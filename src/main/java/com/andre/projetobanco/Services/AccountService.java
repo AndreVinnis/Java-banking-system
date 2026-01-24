@@ -71,6 +71,7 @@ public class AccountService {
         newAccount = accountRepository.save(newAccount);
         String formattedNumber = generateAccountNumber(newAccount.getId());
         newAccount.setAccountNumber(formattedNumber);
+        newAccount.deposit(BigDecimal.ZERO);
         return accountRepository.save(newAccount);
     }
 
