@@ -41,12 +41,12 @@ public abstract class Account implements Serializable, UserDetails {
     @JoinColumn(name = "card_id")
     private Card card;
 
-    public Account(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, Card card) {
+    public Account(Long id, User user, String agency, String accountNumber, String transactionPinHash, Card card) {
         this.id = id;
         this.user = user;
         this.agency = agency;
         this.accountNumber = accountNumber;
-        this.balance = balance;
+        this.balance = BigDecimal.ZERO;
         this.transactionPinHash = transactionPinHash;
         this.card = card;
     }
@@ -59,8 +59,8 @@ public abstract class Account implements Serializable, UserDetails {
         return id;
     }
 
-    public User getUser() {
-        return user;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAgency() {
@@ -73,6 +73,14 @@ public abstract class Account implements Serializable, UserDetails {
 
     public String getAccountNumber() {
         return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
     }
 
     public String getTransactionPinHash() {
@@ -91,12 +99,20 @@ public abstract class Account implements Serializable, UserDetails {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Card getCard() {
         return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
     }
 
     public void deposit(BigDecimal amount){

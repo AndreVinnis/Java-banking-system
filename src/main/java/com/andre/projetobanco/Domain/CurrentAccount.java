@@ -12,8 +12,8 @@ public class CurrentAccount extends Account {
 
     }
 
-    public CurrentAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, Card card, BigDecimal overdrawLimit, BigDecimal maintenanceFee) {
-        super(id, user, agency, accountNumber, balance, transactionPinHash, card);
+    public CurrentAccount(Long id, User user, String agency, String accountNumber, String transactionPinHash, Card card, BigDecimal overdrawLimit, BigDecimal maintenanceFee) {
+        super(id, user, agency, accountNumber, transactionPinHash, card);
         this.overdrawLimit = overdrawLimit;
         this.maintenanceFee = maintenanceFee;
     }

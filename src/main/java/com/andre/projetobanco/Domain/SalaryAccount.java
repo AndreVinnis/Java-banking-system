@@ -1,11 +1,11 @@
 package com.andre.projetobanco.Domain;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 public class SalaryAccount extends Account {
 
-    public SalaryAccount(Long id, User user, String agency, String accountNumber, BigDecimal balance, String transactionPinHash, Card card) {
-        super(id, user, agency, accountNumber, balance, transactionPinHash, card);
+    public SalaryAccount(Long id, User user, String agency, String accountNumber, String transactionPinHash, Card card) {
+        super(id, user, agency, accountNumber, transactionPinHash, card);
+    }
+
+    public SalaryAccount() {
     }
 }
